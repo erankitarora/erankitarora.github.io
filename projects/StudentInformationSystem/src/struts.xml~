@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.devMode" value="true" />
+	
+	<package name="default" extends="struts-default">
+			<interceptors>
+		<interceptor name="authenticateInterceptor"	class="org.iiitb.sis.util.AuthenticateInterceptor"></interceptor>
+			<interceptor-stack name="secureAccess">
+				<interceptor-ref name="authenticateInterceptor" />
+				<!-- <interceptor-ref name="createSession" /> -->
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+<!-- pavan Struts file -->
+    <action name="login" class="org.iiitb.sis.login.LoginAction" method ="execute">
+	           <result name="admin">/jsp/admin/welcomeadmin.jsp</result>
+	           <result name="student">/jsp/studenthome/welcomestudent.jsp</result> 
+	           <result name="faculty">/jsp/facultyhome/welcomefaculty.jsp</result>
+	           <result name="error">/welcome.jsp</result>
+	      </action>
+	      <action name="getnews" class="org.iiitb.sis.login.LoginAction" method ="getNewsDetails">
+	      		<result name="success">/jsp/shownews.jsp</result>
+	      		<result name="error">/jsp/error.jsp</result>
+	      </action>
+	      <action name="getannouncement" class="org.iiitb.sis.login.LoginAction" method ="getAnnouncementDetails">
+	      		<result name="success">/jsp/showannouncement.jsp</result>
+	      		<result name="error">/jsp/error.jsp</result>
+	      </action>
+	      <action name="getmyprofile" class="org.iiitb.sis.login.LoginAction" method ="getMyProfile">
+	      		<result name="success">/jsp/viewmyprofile.jsp</result>
+	      		<result name="error">/jsp/error.jsp</result>
+	      </action>
+	      <action name="logout" class="org.iiitb.sis.login.LogoutAction">
+	      		<result name="success">/welcome.jsp</result>
+	      </action>
+	   	  <action name="resetpassword" class="org.iiitb.sis.login.LoginAction" method ="resetPassword" >
+	   	  		<result name="success">/jsp/resetpassword.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+	   	  <action name="getimage" class="org.iiitb.sis.login.LoginAction" method ="getImage" />
+
+                  <action name="addFaculty" class="org.iiitb.sis.admin.faculty.action.AddFaculty">
+				<interceptor-ref name="fileUpload">
+					<param name="maximumSize">50971520</param>
+					<param name="allowedTypes">
+						image/png,image/gif,image/jpeg
+					</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<result name="success">/jsp/admin/faculty/addFaculty.jsp</result>
+				<result name="error_user">/jsp/admin/faculty/addFaculty.jsp</result>
+			</action>
+			
+			
+           
+			
+			<action name="updateFaculty" class="org.iiitb.sis.admin.faculty.action.UpdateFaculty">
+				<interceptor-ref name="fileUpload">
+					<param name="maximumSize">50971520</param>
+					<param name="allowedTypes">
+						image/png,image/gif,image/jpeg
+					</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<result name="success">/jsp/admin/faculty/updateFacultySuccess.jsp</result>
+				
+			</action>
+			
+			
+			
+			
+			
+			<action name="SearchFaculty" class="org.iiitb.sis.admin.faculty.action.SearchFaculty">
+				<interceptor-ref name="fileUpload">
+					<param name="maximumSize">50971520</param>
+					<param name="allowedTypes">
+						image/png,image/gif,image/jpeg
+					</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<result name="update">/jsp/admin/faculty/updateFaculty.jsp</result>
+			</action>
+			
+			
+			
+			<action name="searchFacultybyname" class="org.iiitb.sis.admin.faculty.action.SearchFacultybyname">
+				<result name="update">/jsp/admin/faculty/listoffacultybyname.jsp</result>
+				<result name="delete" type="redirectAction">
+            		<param name="actionName">deleteStudent</param>
+            		<param name="sid">${sid}</param>
+           		</result> 
+ 		               	
+			</action>
+			
+												
+			
+			<action name="showImageFaculty" class="org.iiitb.sis.admin.faculty.action.ShowImage">
+			</action>
+			
+			
+			<action name="DeleteFaculty" class="org.iiitb.sis.admin.faculty.action.DeleteFaculty">
+				<interceptor-ref name="fileUpload">
+					<param name="maximumSize">50971520</param>
+					<param name="allowedTypes">
+						image/png,image/gif,image/jpeg
+					</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<result name="success">/jsp/admin/faculty/search.jsp</result>
+				
+			</action>
+<!-- nisarg and jigara Struts file -->
+		<action name="addEnrollment" class="org.iiitb.sis.admin.enrollment.action.AddEnrollment">
+		<result name="success">/jsp/admin/enrollment/addEnrollment.jsp</result>
+	<!--  	<result name="login">/index.jsp</result> -->
+	</action>
+	
+	<action name="ShowSem" class="org.iiitb.sis.admin.enrollment.action.ShowSem">
+				<result name="success">/jsp/admin/enrollment/showSem.jsp</result>
+			</action>
+	
+	
+	<action name="listEnrollments" class="org.iiitb.sis.admin.enrollment.action.SearchEnrollment" method="listEnrollments">
+				<result name="list">/jsp/admin/enrollment/searchResult.jsp</result>
+	</action>
+	<action name="searchEnrollment" class="org.iiitb.sis.admin.enrollment.action.SearchEnrollment">
+				<result name="update">/jsp/admin/enrollment/updateEnrollment.jsp</result>
+				<result name="delete" type="redirectAction">
+            		<param name="actionName">deleteEnrollment</param>
+            		<param name="cname">${cname}</param>
+            		<param name="sname">${sname}</param>
+           		</result> 
+	</action>
+ 	<action name="updateEnrollment" class="org.iiitb.sis.admin.enrollment.action.UpdateEnrollment">
+		<result name="success">/jsp/admin/enrollment/updateEnrollmentSuccess.jsp</result>
+		<result name="error_user">/jsp/admin/enrollment/updateEnrollmentError.jsp</result>
+	</action>
+	<action name="deleteEnrollment" class="org.iiitb.sis.admin.enrollment.action.DeleteEnrollment">
+				<result name="success">/jsp/admin/enrollment/deleteSuccess.jsp</result>
+				<result name="error_user">/jsp/admin/enrollment/deleteEnrollmentError.jsp</result>
+	</action>
+    <action name="showCourses1" class="org.iiitb.sis.admin.enrollment.action.ShowCourses">
+				<result name="success">/jsp/admin/enrollment/showCourses.jsp</result>
+	</action>
+	 <!-- ANKIT Struts file -->
+	   	  	<action name="addStudent" class="org.iiitb.sis.admin.student.action.AddStudent">
+				<interceptor-ref name="fileUpload">
+					<param name="maximumSize">50971520</param>
+					<param name="allowedTypes">
+						image/png,image/gif,image/jpeg
+					</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<result name="success">/jsp/admin/student/addStudent.jsp</result>
+			</action>
+			
+			<action name="updateStudent" class="org.iiitb.sis.admin.student.action.UpdateStudent">
+				<interceptor-ref name="fileUpload">
+					<param name="maximumSize">50971520</param>
+					<param name="allowedTypes">
+						image/png,image/gif,image/jpeg
+					</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<result name="success">/jsp/admin/student/updateStudentSuccess.jsp</result>
+				<result name="error_user">/jsp/admin/student/updateStudentError.jsp</result>
+			</action>
+			
+			<action name="searchStudent" class="org.iiitb.sis.admin.student.action.SearchStudent">
+				<result name="update">/jsp/admin/student/updateStudent.jsp</result>
+				<result name="delete" type="redirectAction">
+            		<param name="actionName">deleteStudent</param>
+            		<param name="sid">${sid}</param>
+           		</result> 
+		               	
+			</action>
+			
+			<action name="listStudents" class="org.iiitb.sis.admin.student.action.SearchStudent" method="listStudents">
+				<result name="list">/jsp/admin/student/searchResult.jsp</result>
+			</action>
+			
+			<action name="deleteStudent" class="org.iiitb.sis.admin.student.action.DeleteStudent">
+				<result name="success">/jsp/admin/student/deleteSuccess.jsp</result>
+			</action>
+								
+			<action name="showImage" class="org.iiitb.sis.admin.student.action.ShowImage">
+			</action>
+			
+			<!-- Teaches(Assignment): -->
+			
+			<action name="showCourses" class="org.iiitb.sis.admin.assignment.action.ShowCourses">
+				<result name="success">/jsp/admin/assignment/showCourses.jsp</result>
+			</action>
+			
+			<action name="addAssignment" class="org.iiitb.sis.admin.assignment.action.AddAssignment">
+				<result name="success">/jsp/admin/assignment/addAssignment.jsp</result>
+			</action>
+			
+			<action name="searchAssignment" class="org.iiitb.sis.admin.assignment.action.SearchAssignment">
+				<result name="update">/jsp/admin/assignment/updateAssignment.jsp</result>
+				<result name="delete" type="redirectAction">
+            		<param name="actionName">deleteAssignment</param>
+            		<param name="fname">${fname}</param>
+            		<param name="cname">${cname}</param>
+           		</result> 
+		 	</action>
+		 	
+		 	<action name="updateAssignment" class="org.iiitb.sis.admin.assignment.action.UpdateAssignment">
+				<result name="success">/jsp/admin/assignment/updateAssignmentSuccess.jsp</result>
+				<result name="error_user">/jsp/admin/assignment/updateAssignmentError.jsp</result>
+			</action>
+			
+			
+			<action name="listAssignments" class="org.iiitb.sis.admin.assignment.action.SearchAssignment" method="listAssignments">
+				<result name="list">/jsp/admin/assignment/searchResult.jsp</result>
+			</action>
+			
+			<action name="deleteAssignment" class="org.iiitb.sis.admin.assignment.action.DeleteAssignment">
+				<result name="success">/jsp/admin/assignment/deleteSuccess.jsp</result>
+				<result name="error_user">/jsp/admin/assignment/deleteAssignmentError.jsp</result>
+			</action>
+
+		
+	</package>
+ <package name="student" namespace="/" extends="struts-default">
+ 		  <action name="addfriend" class="org.iiitb.sis.studenthome.action.AddFriend" method ="addToFriendList" >
+ 		  		<result name="success">/jsp/error.jsp</result>
+ 		  		<result name="error">/jsp/error.jsp</result>
+ 		  </action>
+ 		  <action name="removefriend" class="org.iiitb.sis.studenthome.action.AddFriend" method ="removeToFriendList" >
+ 		  		<result name="success">/jsp/error.jsp</result>
+ 		  		<result name="error">/jsp/error.jsp</result>
+ 		  </action>
+ 		  
+	   	  <action name="getsearchfriends" class="org.iiitb.sis.studenthome.action.SearchFriends" method ="getFriends" >
+	   	  		<result name="success">/jsp/studenthome/myfriendstable.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+	   	   <action name="getmyfriends" class="org.iiitb.sis.studenthome.action.SearchFriends" method ="getMyFriends" >
+	   	  		<result name="success">/jsp/studenthome/friendstable.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+	   	  <action name="getfriendprofile" class="org.iiitb.sis.studenthome.action.GetFriendProfile" method ="getFriendProfile" >
+	   	  		<result name="success">/jsp/studenthome/viewmyfriendprofile.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+	   	  <action name="getmyfriendprofile" class="org.iiitb.sis.studenthome.action.GetFriendProfile" method ="getFriendProfile" >
+	   	  		<result name="success">/jsp/studenthome/myfriendprofile.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+	   	  <action name="confirmfriend" class="org.iiitb.sis.studenthome.action.ConfirmFriend" method ="confirmfriend"  >
+	   	  		<result name="success">/jsp/studenthome/myrequest.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+	   	  
+	   	  <action name="rejectfriend" class="org.iiitb.sis.studenthome.action.ConfirmFriend" method ="rejectfriend"  >
+	   	  		<result name="success">/jsp/studenthome/myrequest.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+	   	  
+	   	  
+	   	  <action name="getsearchcourses" class="org.iiitb.sis.studenthome.action.SearchCourses" method ="getCourses" >
+	   	  		<result name="success">/jsp/studenthome/coursestable.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+	   	  <action name="getcoursedetails" class="org.iiitb.sis.studenthome.action.GetCourseDetails" method ="getCourseDetails" >
+	   	  		<result name="success">/jsp/studenthome/viewcoursedetails.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+	   	  <action name="getmygrades" class="org.iiitb.sis.studenthome.action.GetGrades" method ="getGrades" >
+	   	  		<result name="success">/jsp/studenthome/viewmygrades.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+	   	  <action name="getregisteredcourses" class="org.iiitb.sis.studenthome.action.GetRegisteredCourses" method ="getRegisteredCourses" >
+	   	  		<result name="success">/jsp/studenthome/getregisteredcourses.jsp</result>
+	   	  		<result name="error">/jsp/error.jsp</result>
+	   	  </action>
+     </package>
+     <package  name="news" extends="struts-default">
+		<action name="addNews" class="org.iiitb.sis.admin.news.action.AddNews">
+			<result name="Success">/jsp/admin/news/addnews.jsp</result>
+			<result name="error_user">/jsp/admin/news/addnews.jsp</result>
+		</action>
+	
+		<action name="deleteNews" class="org.iiitb.sis.admin.news.action.DeleteNews">
+			<result name="Success">/jsp/admin/news/deleteNews.jsp</result>
+			<result name="error_user">/jsp/admin/news/deleteNews.jsp</result>
+		</action>
+		
+		<action name="search" class="org.iiitb.sis.admin.news.action.Search">
+			<result name="Success">/jsp/admin/news/update.jsp</result>
+			<result name="error_user">/jsp/admin/news/updateNews.jsp</result>
+		</action>
+		
+		
+		<action name="updateNews" class="org.iiitb.sis.admin.news.action.UpdateNews">
+			<result name="Success">/jsp/admin/news/updateNews.jsp</result>
+			<result name="error_user">/jsp/admin/news/updateNews.jsp</result>
+		</action>
+		
+		
+		<action name="searchCourseByFaculty" class="org.iiitb.sis.admin.news.action.SearchCourseByFaculty">
+			<result name="Success">/jsp/admin/news/CourseId.jsp</result>
+			<result name="error_user">/jsp/admin/news/updateNews.jsp</result>
+		</action>	
+		
+		
+	</package>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<package name="course" extends="struts-default" >
+		<action name="courseAddAction" class="org.iiitb.sis.admin.course.action.courseAddAction" >
+			<result name="success">/jsp/admin/course/courseAddSuccess.jsp</result>
+			<result name="error">/jsp/admin/course/courseAddError.jsp</result>
+		</action>
+		
+		<action name="updelAction" class="org.iiitb.sis.admin.course.action.updelAction" >
+			<result name="success1">/jsp/admin/course/updateCourseSuccess.jsp</result>
+			<result name="success2">/jsp/admin/course/deleteResult.jsp</result>
+			<result name="error">/jsp/admin/course/error.jsp</result>
+		</action>
+		
+		<action name="deleteAction" class="org.iiitb.sis.admin.course.action.deleteAction" >
+			<result name="success1">/jsp/admin/course/deleteResult.jsp</result>
+			<result name="success2">/jsp/admin/course/deleteResult.jsp</result>
+			<result name="error">/jsp/admin/course/error.jsp</result>
+		</action>
+		
+		<action name="courseSearchAction" class="org.iiitb.sis.admin.course.action.courseSearchAction" >
+			<result name="success">/jsp/admin/course/updateCourse.jsp</result>
+			<result name="error">/jsp/admin/course/searchError.jsp</result>
+		</action>
+		
+		<action name="courseUpdateAction" class="org.iiitb.sis.admin.course.action.courseUpdateAction" >
+			<result name="success">/jsp/admin/course/UpateCourse.jsp</result>
+			<result name="error">/jsp/admin/course/searchError.jsp</result>
+		</action>
+		
+		<action name="courseSearchList" class="org.iiitb.sis.admin.course.action.courseSearchAction" method="getall">
+			<result name="success">/jsp/admin/course/searchResult.jsp</result>
+			<result name="error">/jsp/admin/course/searchError.jsp</result>
+		</action>
+		
+		<!-- chirag's -->
+			
+		
+		<action name="AddToGrades"
+			class="org.iiitb.sis.admin.grading.action.AddGradeToNotGraded" method="SearchWithCourseID">
+			<result name="success">/jsp/admin/grading/GradeToStudent.jsp</result>
+			<result name="login">/jsp/admin/grading/index.jsp</result>
+		</action>
+		
+			<action name="submitaction"
+			class="org.iiitb.sis.admin.grading.action.AddGradeToNotGraded" method="AddcourseList">
+			<result name="success">/jsp/admin/grading/GradeToStudent.jsp</result>
+			<!-- <result name="login">/jsp/admin/grading/index.jsp</result> -->
+		</action>
+		
+			<action name="SubmitGrade"
+			class="org.iiitb.sis.admin.grading.action.AddGradeToNotGraded" method="UpdateGrades">
+			<result name="success">/jsp/admin/grading/GradeToStudent.jsp</result>
+			<!-- <result name="login">/jsp/admin/grading/index.jsp</result> -->
+		</action>
+		
+	</package>
+</struts>
